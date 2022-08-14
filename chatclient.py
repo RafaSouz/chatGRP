@@ -25,27 +25,19 @@ def receiveMsg():
     server.wait_for_termination()
 
 def run(nameR,nameD,ipD,text):
-
-    #print(f"DESTINATION -> {dest} MESSAGE -> {msg}")
-    # print(f"ADDR -> {dest_addr}")
     with grpc.insecure_channel(const.CHAT_SERVER_HOST) as channel:
-        stub = chatserver_pb2_grpc.MessageStub(channel)
-        response = stub.sendMsg(service_pb2.MessageData(nameR=nameR,nameD=nameD,ipD=ipD,text=text))
+        stub = service_pb2_grpc.chatStub(channel)
+        response = stub.sendMsg(service_pb2.msg(nameR=nameR,nameD=nameD,ipD=ipD,text=text))
 
 def inputdados():
-    nameD = input("ENTER DESTINATION: ")
-    text = input("ENTER MESSAGE: ")
+    nameD = input("Destination: ")
+    text = input("Message: ")
     return nameD,text
+    
 
 if __name__ == '__main__':
-    logging.basicConfig()
 
-    recv = threading.Thread(target=receiveMsg)
-    recv.daemon = False
-    recv.start()
-
-    nameR = str(sys.argv[1])
-    print(nameR)
+    nameR = input ("Your name: ")
 
     while True:
         nameD,text=inputdados()
