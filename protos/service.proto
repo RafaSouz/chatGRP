@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message Empty {}
+
+message msg{
+  string nameD = 1;
+  string nameR =2;
+  string text = 3;
+  string ipD = 4;
+}
+
+service chat{
+  rpc receiveMsg (msg) 
+    returns (Empty);
+  rpc sendMsg (msg) 
+    returns (Empty);
+}
